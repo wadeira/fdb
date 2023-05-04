@@ -486,7 +486,7 @@ def is_dead_proxy(obj):
 def b2u(st, charset):
     "Decode to unicode if charset is defined. For conversion of result set data."
     if charset:
-        return st.decode(charset)
+        return st.decode(charset, errors='ignore')
     else:
         return st
 
@@ -494,7 +494,7 @@ def p3fix(st, charset):
     """For P3 convert bytes to string using connection charset, P2 as is.
     For conversion of info results to native strings."""
     if PYTHON_MAJOR_VER == 3:
-        return st.decode(charset)
+        return st.decode(charset, errors='ignore')
     else:
         return st
 
@@ -604,7 +604,7 @@ def exception_from_status(error, status, preamble=None):
         result = api.fb_interpret(msg, 512, pvector)
         if result != 0:
             if PYTHON_MAJOR_VER == 3:
-                msglist.append('- ' + (msg.value).decode(sys_encoding))
+                msglist.append('- ' + (msg.value).decode(sys_encoding, errors='ignore'))
             else:
                 msglist.append('- ' + msg.value)
         else:
